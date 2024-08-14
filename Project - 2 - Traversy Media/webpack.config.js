@@ -6,7 +6,9 @@ module.exports = {
     entry: { somename: path.resolve(__dirname, 'src/index.js') },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: '[name].[contenthash].js'
+        filename: '[name].[contenthash].js',
+        clean: true,
+        assetModuleFilename: '[name][ext]'
     },
     module: {
         rules: [
@@ -17,6 +19,20 @@ module.exports = {
                     'css-loader',
                     'sass-loader'
                 ]
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env']
+                    }
+                },
+            },
+            {
+                test: /\.(png|jpeg|gif|svg)$/i,
+                type: 'asset/resource'
             }
         ]
     },
